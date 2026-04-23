@@ -1,0 +1,62 @@
+services:
+  n8n:
+    image: n8nio/n8n:1.123.27
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    env_file:
+      - .env
+    environment:
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - GENERIC_TIMEZONE=America/Sao_Paulo
+      - TZ=America/Sao_Paulo
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSION=true
+    volumes:
+      - ./n8n_data:/home/node/.n8n
+    networks:
+      - app-network
+    depends_on:
+      python:
+        condition: service_healthy
+
+  python:
+    build:
+      context: ./python_service
+      dockerfile: Dockerfile
+    container_name: python
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./python_service/app:/app/app
+    command: >
+      uvicorn app.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
+      --reload-dir /app/app
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - app-network
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    command: tunnel --no-autoupdate --url http://n8n:5678
+    restart: unless-stopped
+    depends_on:
+      - n8n
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
