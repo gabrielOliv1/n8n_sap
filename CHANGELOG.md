@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-04-23
+
+### Added
+- **CI workflow** (`.github/workflows/ci.yml`): 3 parallel jobs on every PR to `master` — code quality (black, ruff, mypy), tests (pytest + coverage ≥80%), security (pip-audit, trivy, gitleaks)
+- **Release workflow** (`.github/workflows/release.yml`): automatic git tag + GitHub Release from CHANGELOG.md version on merge to `master`
+- **mypy configuration** (`python_service/mypy.ini`): type checking with `ignore_missing_imports` for third-party libraries without stubs
+- **CI/CD documentation** (`docs/CI_CD.md`): pipeline strategy, local commands, branch protection setup, troubleshooting
+- **ADR 003**: GitHub Actions CI/CD pipeline decisions
+
+### Changed
+- **requirements-dev.txt**: added `pytest-cov==6.1.1`, `black==25.1.0`, `ruff==0.11.8`, `mypy==1.15.0`, `pip-audit==2.9.0`
+- **SPEC.md**: updated milestone M1 status to CONCLUDED, removed CI/CD "not implemented" note
+
 ## [0.1.0] - 2026-03-30
 
 ### Added

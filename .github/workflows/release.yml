@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - CHANGELOG.md
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: "Create Release"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from CHANGELOG.md
+        id: version
+        run: |
+          # Extract the first version heading: ## [X.Y.Z]
+          VERSION=$(grep -oP '## \[\K[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | head -1)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Detected version: $VERSION"
+
+      - name: Check if tag already exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Tag v${{ steps.version.outputs.version }} already exists, skipping."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Extract release notes from CHANGELOG.md
+        if: steps.check_tag.outputs.exists == 'false'
+        id: notes
+        run: |
+          # Extract content between the first ## [X.Y.Z] and the next ## [
+          NOTES=$(awk '/^## \['"${{ steps.version.outputs.version }}"'\]/{flag=1; next} /^## \[/{flag=0} flag' CHANGELOG.md)
+          # Write to file to preserve multiline
+          echo "$NOTES" > release_notes.txt
+
+      - name: Create Git tag
+        if: steps.check_tag.outputs.exists == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "${{ steps.version.outputs.tag }}" -m "Release ${{ steps.version.outputs.tag }}"
+          git push origin "${{ steps.version.outputs.tag }}"
+
+      - name: Create GitHub Release
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: ${{ steps.version.outputs.tag }}
+          body_path: release_notes.txt
+          draft: false
+          prerelease: false
