@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class PurchaseType(str, Enum):
     SPOT = "SPOT"
     PLANNED = "PLANNED"
@@ -7,4 +8,5 @@ class PurchaseType(str, Enum):
     SERVICE = "SERVICE"
     STO = "STO"
 
-# 
+
+#
