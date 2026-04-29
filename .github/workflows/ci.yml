@@ -104,7 +104,7 @@ jobs:
             --exit-code 1 \
             --severity HIGH,CRITICAL \
             --ignore-unfixed \
-            n8n-sap-python:local
+            n8n-sap-python:ci
 
       - name: Scan for exposed secrets (gitleaks)
         uses: gitleaks/gitleaks-action@v2
