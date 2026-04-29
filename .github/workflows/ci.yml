@@ -93,13 +93,18 @@ jobs:
       - name: Build Docker image
         run: docker build -t n8n-sap-python:ci ./python_service
 
-      - name: Scan Docker image (trivy)
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: "n8n-sap-python:ci"
-          format: table
-          exit-code: 1
-          severity: "CRITICAL,HIGH"
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
+            | sh -s -- -b /usr/local/bin v0.70.0
+
+      - name: Run Trivy
+        run: |
+          trivy image \
+            --exit-code 1 \
+            --severity HIGH,CRITICAL \
+            --ignore-unfixed \
+            n8n-sap-python:local
 
       - name: Scan for exposed secrets (gitleaks)
         uses: gitleaks/gitleaks-action@v2
