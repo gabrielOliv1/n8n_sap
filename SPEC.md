@@ -237,7 +237,7 @@ Every decision with architecture impact must generate an ADR in `docs/ADR`, with
 ---
 # 8. CI/CD
 
-`Note: CI/CD Pipeline is not implemented yet. This section defines the strategy, more details on docs/CI_CD.md (to be created in the future)`
+More details on [docs/CI_CD.md](docs/CI_CD.md).
 
 ## 8.1 Mandatory checks in every PR
 
@@ -341,8 +341,8 @@ The agent MUST prioritize project knowledge before thinking from scratch
 | MILESTONE                                   | STATUS      | REFERENCE                                          |
 | ------------------------------------------- | ----------- | -------------------------------------------------- |
 | M0 - Docker + python services orchestration | CONCLUDED   | ADR 001, CHANGELOG v0.1.0                          |
-| M1 - Pipeline CI/CD                         | NOT STARTED | -                                                  |
+| M1 - Pipeline CI/CD                         | CONCLUDED   | ADR 003, CHANGELOG v0.2.0                          |
 
-Actual version: `v0.1.0`
-Last CHANGELOG: `[0.1.0] - 2026-03-30`
-ADRs: `001-docker-python-services-orchestration`, `002-Multi format attachment processing strategy`
+Actual version: `v0.2.0`
+Last CHANGELOG: `[0.2.0] - 2026-04-23`
+ADRs: `001-docker-python-services-orchestration`, `002-Multi format attachment processing strategy`, `003-github-actions-ci-cd-pipeline`
