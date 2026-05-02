@@ -341,8 +341,8 @@ The agent MUST prioritize project knowledge before thinking from scratch
 | MILESTONE                                   | STATUS      | REFERENCE                                          |
 | ------------------------------------------- | ----------- | -------------------------------------------------- |
 | M0 - Docker + python services orchestration | CONCLUDED   | ADR 001, CHANGELOG v0.1.0                          |
-| M1 - Pipeline CI/CD                         | CONCLUDED   | ADR 003, CHANGELOG v0.2.0                          |
+| M1 - Pipeline CI/CD                         | CONCLUDED   | ADR 003, CHANGELOG v0.3.0                          |
 
-Actual version: `v0.2.0`
-Last CHANGELOG: `[0.2.0] - 2026-04-23`
+Actual version: `v0.3.0`
+Last CHANGELOG: `[0.3.0] - 2026-04-29`
 ADRs: `001-docker-python-services-orchestration`, `002-Multi format attachment processing strategy`, `003-github-actions-ci-cd-pipeline`

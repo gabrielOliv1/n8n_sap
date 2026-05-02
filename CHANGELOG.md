@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-04-29
+
+### Added
+- **CI/CD pipeline**: integrated GitHub Actions pipeline (M1).
+- **Tests**: added validation testing for the `purchase type` schema.
+
+### Changed
+- **Dependencies**: updated project dependency versions.
+
+### Fixed
+- **Docker image naming**: corrected Docker image nomenclature across all instances.
+- **Trivy workflow**: fixed vulnerability scanning by installing Trivy directly in the container.
+- **Code formatting**: resolved `black` and `ruff` checking issues.
+
 ## [0.2.0] - 2026-04-23
 
 ### Added
