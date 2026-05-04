@@ -37,21 +37,32 @@ Integration principle: n8n calls the Python service by internal HTTP (http://pyt
     │   ├── main.py
     │   ├── api/
     │   │   └── routes/
-    │   │       ├── attachment.py
+    │   │       ├── attachment.py    ← DEPRECATED (kept for transition)
+    │   │       ├── email.py         ← POST /emailProcessingService (M2)
     │   │       └── health.py
     │   ├── domain/
     │   │   ├── enums/
     │   │   │   └── purchase_type.py
     │   │   └── schemas/
+    │   │       ├── email_payload.py     ← inbound n8n request schemas (M2)
+    │   │       ├── email_response.py    ← outbound response schemas (M2)
     │   │       └── llm_classification.py
     │   └── services/
-    │       └── attachment_processor.py
+    │       ├── attachment_processor.py  ← DEPRECATED (kept for transition)
+    │       ├── email_processor.py       ← orchestration + base64 + PDF parse (M2)
+    │       └── text_cleaner.py          ← footer removal pipeline + logging (M2)
     ├── tests/
     │   ├── conftest.py
     │   ├── unit/
-    │   │   └── test_attachment_processor.py
+    │   │   ├── test_attachment_processor.py
+    │   │   ├── test_email_payload_schema.py  ← M2
+    │   │   ├── test_email_processor.py       ← M2
+    │   │   ├── test_email_response_schema.py ← M2
+    │   │   ├── test_text_cleaner.py          ← M2
+    │   │   └── test_schemas.py
     │   ├── integration/
-    │   │   └── test_attachment_endpoint.py
+    │   │   ├── test_attachment_endpoint.py
+    │   │   └── test_email_endpoint.py        ← M2
     │   └── regression/
     │       └── .gitkeep
     ├── requirements.txt
@@ -297,6 +308,7 @@ This section defines how the agent works - not what the system do
 ## 10.1 Before any action
 - Confirm if SPEC.md ad plan.md were readen in the actual session;
 - Check CHANGELOG.md to understand actual project state;
+- All documentation and writing must be done in English
 
 ## 10.2 When ambiguity is found
 - Do not solve it by yourself
@@ -314,6 +326,10 @@ This section defines how the agent works - not what the system do
 ## 10.5 Tokens saving
 
 The agent MUST prioritize project knowledge before thinking from scratch
+
+## 10.6 Commits
+
+The agent MUST propose a commit after any change, following conventional commits rules and asking for review before finalizing. The commits MUST be atomic, not only after major milestones.
 
 
 | SOURCE           | WHEN USE IT                               |
@@ -342,7 +358,8 @@ The agent MUST prioritize project knowledge before thinking from scratch
 | ------------------------------------------- | ----------- | -------------------------------------------------- |
 | M0 - Docker + python services orchestration | CONCLUDED   | ADR 001, CHANGELOG v0.1.0                          |
 | M1 - Pipeline CI/CD                         | CONCLUDED   | ADR 003, CHANGELOG v0.3.0                          |
+| M2 - Email Processing Service               | CONCLUDED   | ADR 004, CHANGELOG v0.4.0                          |
 
-Actual version: `v0.3.0`
-Last CHANGELOG: `[0.3.0] - 2026-04-29`
-ADRs: `001-docker-python-services-orchestration`, `002-Multi format attachment processing strategy`, `003-github-actions-ci-cd-pipeline`
+Actual version: `v0.4.0`
+Last CHANGELOG: `[0.4.0] - 2026-05-01`
+ADRs: `001-docker-python-services-orchestration`, `002-Multi format attachment processing strategy`, `003-github-actions-ci-cd-pipeline`, `004-email-processing-service`
