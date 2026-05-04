@@ -9,7 +9,6 @@ from pydantic import ValidationError
 
 from app.domain.schemas.email_response import AttachmentSummary, EmailResult
 
-
 # ---------------------------------------------------------------------------
 # AttachmentSummary tests
 # ---------------------------------------------------------------------------

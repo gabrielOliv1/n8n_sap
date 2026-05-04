@@ -9,7 +9,6 @@ import base64
 
 import pytest
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -137,7 +136,9 @@ async def test_post_email_subject_cleaned_removes_prefix(client) -> None:
 @pytest.mark.asyncio
 async def test_post_email_requisitioner_cleaned_returns_email_only(client) -> None:
     """Response 'requisitioner' contains only the email address (no 'From:' wrapper)."""
-    payload = [_make_email_payload(requisitioner='From: "Full Name" <clean@example.com>')]
+    payload = [
+        _make_email_payload(requisitioner='From: "Full Name" <clean@example.com>')
+    ]
     response = await client.post("/emailProcessingService", json=payload)
     data = response.json()
     assert data[0]["requisitioner"] == "clean@example.com"

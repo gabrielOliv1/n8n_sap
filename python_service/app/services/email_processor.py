@@ -186,7 +186,9 @@ def _decode_base64(data: str) -> bytes:
         return b""
 
 
-def _extract_pdf_preview(pdf_bytes: bytes, max_chars: int = _PDF_PREVIEW_MAX_CHARS) -> str | None:
+def _extract_pdf_preview(
+    pdf_bytes: bytes, max_chars: int = _PDF_PREVIEW_MAX_CHARS
+) -> str | None:
     """Extract a text preview from PDF bytes using pdfplumber.
 
     Concatenates text from all pages until max_chars is reached. Returns None

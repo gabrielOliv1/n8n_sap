@@ -8,7 +8,6 @@ from unittest.mock import patch
 
 from app.services.text_cleaner import remove_email_footer
 
-
 # ---------------------------------------------------------------------------
 # Happy path — known footer patterns
 # ---------------------------------------------------------------------------

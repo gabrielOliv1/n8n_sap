@@ -9,7 +9,6 @@ from pydantic import ValidationError
 
 from app.domain.schemas.email_payload import AttachmentData, EmailPayload
 
-
 # ---------------------------------------------------------------------------
 # AttachmentData tests
 # ---------------------------------------------------------------------------
