@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-05-01
+
+### Added
+- **Email Processing Service** (`POST /emailProcessingService`): new endpoint accepting `application/json` array produced by n8n (M2).
+- **Domain schemas** (`email_payload.py`, `email_response.py`): Pydantic models for inbound n8n payload and outbound cleaned response.
+- **Service layer** (`email_processor.py`): orchestrates field cleaning, base64 decode, and PDF text preview extraction (first 5 000 chars).
+- **Text cleaner** (`text_cleaner.py`): extensible footer removal pipeline with structured logging of every removed fragment.
+- **ADR-004**: Email Processing Service architectural decisions.
+- **Tests**: 35 new tests (unit + integration) covering schemas, text cleaner, processor helpers, and HTTP endpoint contract.
+
+### Changed
+- **`main.py`**: registered email router; updated app version to `0.4.0`.
+- **`main.py`**: added Google-style docstring to `create_app()`.
+
+### Deprecated
+- **`POST /attachmentProcessingService`**: kept active during n8n transition period; will be removed in M3.
+
+### Notes
+- **n8n workflow change required (manual)**: Update the HTTP Request node URL from `http://python:8000/attachmentProcessingService` to `http://python:8000/emailProcessingService`. Change content-type from `multipart/form-data` to `application/json`.
+
 ## [0.3.0] - 2026-04-29
 
 ### Added
