@@ -7,6 +7,8 @@ class PurchaseType(str, Enum):
     CONTRACT = "CONTRACT"
     SERVICE = "SERVICE"
     STO = "STO"
+    SUBCONTRACTING = "SUBCONTRACTING"
+    CONSIGNMENT = "CONSIGNMENT"
 
 
 #
