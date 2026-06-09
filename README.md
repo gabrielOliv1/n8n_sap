@@ -16,27 +16,27 @@ Abrir url do cloudflare para acessar n8n.
 
 # Fluxo do agente
 
-![Email Trigger IMAP](image.png)
+![Email Trigger IMAP](./docs/images/image.png)
 
 **Nó Email Trigger IMAP**: Lê emails recebidos e inicializa a automação
 
 **Nó Email parser**: Captura assunto, email de quem solicitou e corpo do email.
 
-![Email parser](image-1.png)
+![Email parser](./docs/images/image-1.png)
 
 **Nó If has attachments**: Verifica se o email tem anexos: se sim, lê anexo.
 
-![If has attachments](image-2.png)
+![If has attachments](./docs/images/image-2.png)
 
 **Nó Get attachments**: Captura os binários do email (anexos)
 
-![Get attachments](image-3.png)
+![Get attachments](./docs/images/image-3.png)
 
 **Nó LLM Request Builder**: Combina as duas opções (email com anexo e email sem anexo) e monta um JSON estruturado
 
-![LLM Request Builder](image-4.png)
+![LLM Request Builder](./docs/images/image-4.png)
 
-![2 parte do fluxo](image-5.png)
+![2 parte do fluxo](./docs/images/image-5.png)
 
 **Nó HTTP Request**: POST /python:8080/emailProcessingService, realiza pré-processamento do email:
 
@@ -54,29 +54,29 @@ Abrir url do cloudflare para acessar n8n.
 * Function **_decobe_base_64**
 * Function **_extract_pdf_preview**
 
-![Rota processEmailService](image-6.png)
-![Output HTTP Request](image-8.png)
+![Rota processEmailService](./docs/images/image-6.png)
+![Output HTTP Request](./docs/images/image-8.png)
 
 **Contexto SAP e regras para nível de confiança da resposta**: Nó que armazena de forma simples as regras que o Agente deve seguir
 
-![Contexto SAP](image-7.png)
-![Regras para nível de certeza da resposta](image-9.png)
+![Contexto SAP](./docs/images/image-7.png)
+![Regras para nível de certeza da resposta](./docs/images/image-9.png)
 
 **Nó Agente de IA**: Modelo Gemini 3.1-flash-lite
 
-![Agente de IA](image-10.png)
+![Agente de IA](./docs/images/image-10.png)
 
 **Structured output parser**: Nó que itera pelo modelo de LLM para estruturar resposta de acordo com as regras
 
-![Structured Output Parser](image-11.png)
+![Structured Output Parser](./docs/images/image-11.png)
 
-![3 parte do fluxo](image-12.png)
+![3 parte do fluxo](./docs/images/image-12.png)
 
 **Nó Switch**: Com base no nível de certeza, esse switch redireciona o fluxo para as melhores ações no momento: responder email pedindo mais informações, pedindo confirmação e aprovação ou enviando o ouput para a API do SAP, para processamento da solicitação de compra.
 
-![Switch node](image-13.png)
+![Switch node](./docs/images/image-13.png)
 
 **Nó Send Email**: Com base no roteamento do switch, o fluxo envia um email para o remetente original pedindo mais informações para completar a classificação.
 
-![Email sent](image-14.png)
-![Email received](image-15.png)
+![Email sent](./docs/images/image-14.png)
+![Email received](./docs/images/image-15.png)
